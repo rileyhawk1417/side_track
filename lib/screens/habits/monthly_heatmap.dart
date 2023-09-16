@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_heatmap_calendar/flutter_heatmap_calendar.dart';
-import 'package:side_track/hive/utils.dart';
+import 'package:side_track/hive/utils/date_time.dart';
 
 class MonthlyHeatMap extends StatelessWidget {
   const MonthlyHeatMap(

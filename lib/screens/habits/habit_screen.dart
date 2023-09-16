@@ -1,21 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:provider/provider.dart';
-import 'package:side_track/hive/habit_functions.dart';
-import 'package:side_track/hive/habit_model.dart';
+import 'package:side_track/hive/habits/habit_functions.dart';
+import 'package:side_track/hive/habits/habit_model.dart';
 import 'package:side_track/screens/habits/monthly_heatmap.dart';
 import 'package:side_track/widgets/habit_box.dart';
-import 'package:side_track/widgets/home_screen.dart';
-
-/*
-class HabitScreen extends StatefulWidget {
-  const HabitScreen({super.key});
-
-  @override
-  State<HabitScreen> createState() => _HabitScreen();
-}
-*/
+import 'package:side_track/widgets/navigation.dart';
 
 class HabitScreen extends ConsumerWidget {
   const HabitScreen({super.key});
@@ -23,8 +12,6 @@ class HabitScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final TextEditingController textController = TextEditingController();
     var _habits = ref.watch(habitController).getHabitList();
-    print(_habits);
-
     return Scaffold(
       body: Center(
         child: ListView(
@@ -43,8 +30,9 @@ class HabitScreen extends ConsumerWidget {
                   habitCompleted: _habits[index][1],
                   onChanged: (changedValue) =>
                       checkBoxTapped(changedValue, index, ref),
-                  edit: (context) => editHabit(context, index, textController),
-                  delete: (context) => deleteHabit(index, context),
+                  edit: (context) =>
+                      editHabit(context, index, textController, ref),
+                  delete: (context) => deleteHabit(index, context, ref),
                 );
               },
             ),
@@ -52,7 +40,7 @@ class HabitScreen extends ConsumerWidget {
         ),
       ),
       floatingActionButton: HabitFAB(
-        clickFunction: () => saveNewHabit(context, textController),
+        clickFunction: () => saveNewHabit(context, textController, ref),
       ),
     );
   }

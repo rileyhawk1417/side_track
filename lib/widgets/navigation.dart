@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:side_track/screens/habits/habit_screen.dart';
-import 'package:side_track/screens/habits/add_habit.dart';
-import 'package:side_track/screens/home_page.dart';
 import 'package:side_track/screens/notes/notes_screen.dart';
 import 'package:side_track/screens/settings_page.dart';
-import 'package:side_track/widgets/alert_box.dart';
 
 Widget? pagesWidget(BuildContext context, int pageNumber) {
   switch (pageNumber) {
     case 0:
-      return HabitScreen();
+      return const HabitScreen();
     case 1:
       return const NotesScreen();
     case 2:

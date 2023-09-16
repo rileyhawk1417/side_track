@@ -44,8 +44,6 @@ dependencies:
   build_runner: ^2.4.6
   flutter_slidable: ^3.0.0
   appflowy_editor: ^0.0.4
-  syncfusion_flutter_charts: ^22.2.12
-  provider: ^6.0.5
   flutter_riverpod: ^2.4.0
   fl_chart: ^0.63.0
 
