@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:provider/provider.dart';
 import 'package:side_track/hive/habit_model.dart';
 import 'package:side_track/widgets/alert_box.dart';
 
-void checkBoxTapped(bool? value, int index, BuildContext context) {
-  final db = context.read<HabitModel>();
-  db.todaysHabitList[index][1] = value;
-  db.updateData();
+void checkBoxTapped(
+    bool? value, int index, WidgetRef ref) {
+  final db = ref.read(habitController);
+  db.onCheckBoxTapped(value, index);
 }
 
 void cancel(BuildContext context, TextEditingController controller) {

@@ -19,6 +19,12 @@ class HabitDBController extends ChangeNotifier {
   HabitDBController(this._habit_database);
   late final HabitModel _habit_database;
 
+  void onCheckBoxTapped(bool? check, int index) {
+    _habit_database.todaysHabitList[index][1] = check;
+    _habit_database.updateData();
+    notifyListeners();
+  }
+
   void prepData() {
     _habit_database.prepData();
   }
