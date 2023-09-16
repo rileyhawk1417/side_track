@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:side_track/hive/habits/habit_database.dart';
-import 'package:side_track/hive/habits/habit_model.dart';
+import 'package:side_track/hive/habit_model.dart';
 import 'package:side_track/widgets/alert_box.dart';
 
 void checkBoxTapped(bool? value, int index, BuildContext context) {

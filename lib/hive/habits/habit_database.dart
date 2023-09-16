@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:side_track/hive/habits/habit_model.dart';
+import 'package:side_track/hive/habit_model.dart';
 
 HabitModel _hiveDB = HabitModel();
 final box = Hive.box(dbName);

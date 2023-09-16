@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:side_track/hive/utils.dart';
@@ -10,59 +9,15 @@ String startDate = 'START_DATE';
 String percentSummary = 'PERCENTAGE_SUMMARY_${todaysDateFormatted()}';
 final _habitBox = Hive.box(dbName);
 
-final habitController = ChangeNotifierProvider<HabitDBController>((ref) {
-  final habitData = ref.watch(habitDBService);
-  return HabitDBController(habitData);
-});
-
-class HabitDBController extends ChangeNotifier {
-  HabitDBController(this._habit_database);
-  late final HabitModel _habit_database;
-
-  void prepData() {
-    _habit_database.prepData();
-  }
-
-  void reloadData() {
-    _habit_database.updateData();
-    notifyListeners();
-  }
-
-  Map<DateTime, int> getHeatMap() {
-    return _habit_database.heatMapDataSet;
-  }
-
-  String getStartingDate() {
-    return _habit_database.getStartingDate();
-  }
-
-  List<dynamic> getHabitList() {
-    return _habit_database.todaysHabitList;
-  }
-}
-
-final habitDBService = Provider<HabitModel>((_) => HabitModel());
-
-class HabitModel {
+class HabitModel extends ChangeNotifier {
   List _todaysHabitList = [];
   List get todaysHabitList => _todaysHabitList;
   Map<DateTime, int> _heatMapDataSet = {};
   Map<DateTime, int> get heatMapDataSet => _heatMapDataSet;
+  String _startingDate = _habitBox.get(startDate);
+  String get startingDate => _startingDate;
 
-  String getStartingDate() {
-    return _habitBox.get(startDate);
-  }
-
-  Future<void> prepData() async {
-    if (_habitBox.get(currHabitList) == null) {
-      createSampleData();
-    } else {
-      loadData();
-    }
-    updateData();
-  }
-
-  Future<void> createSampleData() async {
+  void createSampleData() {
     //NOTE: if theres no habit list create a sample list
     _todaysHabitList.addAll([
       ["Morning Stretches", false],
@@ -70,7 +25,7 @@ class HabitModel {
       ["Meditate", false]
     ]);
 
-    await _habitBox.put(startDate, todaysDateFormatted());
+    _habitBox.put(startDate, todaysDateFormatted());
   }
 
   void loadData() {
@@ -84,14 +39,16 @@ class HabitModel {
       //NOTE: If not a new day get todays habit list
       _todaysHabitList = _habitBox.get(todaysDateFormatted());
     }
+    notifyListeners();
   }
 
-  Future<void> updateData() async {
-    await _habitBox.put(todaysDateFormatted(), _todaysHabitList);
-    await _habitBox.put(currHabitList, todaysDateFormatted());
+  void updateData() {
+    _habitBox.put(todaysDateFormatted(), _todaysHabitList);
+    _habitBox.put(currHabitList, todaysDateFormatted());
 
     calculateHabitPercentage();
     loadHeatMap();
+    notifyListeners();
   }
 
 //NOTE: Calendar Methods

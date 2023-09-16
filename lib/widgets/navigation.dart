@@ -9,7 +9,7 @@ import 'package:side_track/widgets/alert_box.dart';
 Widget? pagesWidget(BuildContext context, int pageNumber) {
   switch (pageNumber) {
     case 0:
-      return const HabitScreen();
+      return HabitScreen();
     case 1:
       return const NotesScreen();
     case 2:
