@@ -2,19 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 class HabitBox extends StatelessWidget {
-  const HabitBox(
-      {super.key,
-      required this.habitText,
-      required this.habitCompleted,
-      required this.onChanged,
-      required this.edit,
-      required this.delete});
+  const HabitBox({
+    super.key,
+    required this.habitText,
+    required this.habitCompleted,
+    required this.onChanged,
+    required this.edit,
+    required this.delete,
+  });
 
   final String habitText;
   final bool habitCompleted;
   final Function(bool?) onChanged;
   final Function(BuildContext)? edit;
   final Function(BuildContext)? delete;
+
   @override
   Widget build(BuildContext context) {
     return Slidable(
@@ -35,19 +37,23 @@ class HabitBox extends StatelessWidget {
           ),
         ],
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Container(
-          padding: const EdgeInsets.all(24),
-          decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.secondary,
-              borderRadius: BorderRadius.circular(12)),
-          child: Row(children: [
-            Checkbox(value: habitCompleted, onChanged: onChanged),
-            Text(habitText),
-          ]),
-        ),
-      ),
+      child: ListTile(
+          title: Text(habitText),
+          /*
+          //BUG: Does work but delays heat map
+          leading: habitCompleted
+              ? Icon(Icons.check_box)
+              : Icon(Icons.check_box_outline_blank_sharp),
+              */
+          leading: Checkbox(
+            value: habitCompleted,
+            onChanged: onChanged,
+          ),
+          tileColor: Theme.of(context).colorScheme.secondary,
+          onTap: () {
+            //TODO: Pass bool function here
+            // checkBoxTapped(!habitCompleted, index, ref);
+          }),
     );
   }
 }

@@ -7,6 +7,7 @@ import 'package:side_track/widgets/dialog_box.dart';
 void checkBoxTapped(bool? value, int index, WidgetRef ref) {
   final db = ref.read(habitController);
   db.onCheckBoxTapped(value, index);
+  db.reloadData();
 }
 
 void cancel(BuildContext context, TextEditingController controller) {
