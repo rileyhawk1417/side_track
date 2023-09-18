@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:side_track/hive/notes/notes_model.dart';
 import 'package:side_track/widgets/navigation.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,6 +19,7 @@ class _HomePage extends State<HomePage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        //TODO: Switch this to a riverpod
         body: pagesWidget(context, _pageNumber),
         appBar: AppBar(
           title: const Text('Side Track'),

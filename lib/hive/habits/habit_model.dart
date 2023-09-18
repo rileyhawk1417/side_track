@@ -54,7 +54,7 @@ class HabitModel {
   List get todaysHabitList => _todaysHabitList;
   Map<DateTime, int> _heatMapDataSet = {};
   Map<DateTime, int> get heatMapDataSet => _heatMapDataSet;
-
+  Map<String, dynamic> jsonMap = {};
   String getStartingDate() {
     return _habitBox.get(startDate);
   }
