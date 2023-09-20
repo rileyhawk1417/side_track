@@ -6,8 +6,14 @@ class HabitFAB extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton(
-        onPressed: () => clickFunction(),
-        child: Icon(Icons.add, color: Theme.of(context).colorScheme.onSurface));
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(40),
+      child: FloatingActionButton(
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          onPressed: () => clickFunction(),
+          child: Icon(
+            Icons.add,
+          )),
+    );
   }
 }

@@ -11,6 +11,7 @@ class HabitScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final TextEditingController textController = TextEditingController();
+    ref.read(habitController).prepData();
     var _habits = ref.watch(habitController).getHabitList();
     return Scaffold(
       body: Center(

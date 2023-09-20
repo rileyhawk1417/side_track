@@ -4,6 +4,7 @@ import 'package:appflowy_editor/appflowy_editor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:side_track/hive/notes/notes_function.dart';
 import 'package:side_track/hive/notes/notes_model.dart';
 part 'note_editor.g.dart';
 
@@ -41,7 +42,7 @@ class AppBarButton extends StatelessWidget {
           height: 120.0,
           width: 55.0,
           child: MaterialButton(
-            onPressed: () => onPressedFunc,
+            onPressed: () => onPressedFunc(),
             child: Icon(icon),
           ),
         ),
@@ -67,9 +68,10 @@ class NoteEditor extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final editorScrollController = ScrollController();
     var _editable = ref.watch(editableProvider);
+    var _noteTitle =
+        ref.watch(notesController).getNoteList()[noteListIndex].docName;
     final _encodedNote =
         ref.watch(notesController).getJsonNote(noteDate, noteListIndex);
-    //TODO Test save method, then try read from it.
     final editorState = EditorState(
       document: Document.fromJson(
         Map<String, dynamic>.from(
@@ -77,40 +79,31 @@ class NoteEditor extends ConsumerWidget {
         ),
       ),
     );
+    TextEditingController editTitle = TextEditingController(text: _noteTitle);
+    void saveNoteEdit() {
+      print('lolz');
+      ref.read(editableProvider.notifier).editable();
+      saveEditNote(noteListIndex, editTitle.text, editorState.document.toJson(),
+          noteDate, ref);
+      ref.read(notesController).syncNotes();
+    }
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text(noteTitle),
+          title: _editable
+              ? TextField(
+                  controller: editTitle,
+                )
+              : Text(_noteTitle),
           actions: [
             _editable
-                ? Center(
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(150),
-                      child: SizedBox(
-                        height: 120.0,
-                        width: 55.0,
-                        child: MaterialButton(
-                          onPressed: () =>
-                              ref.read(editableProvider.notifier).editable(),
-                          child: const Icon(Icons.done),
-                        ),
-                      ),
-                    ),
-                  )
-                : Center(
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(150),
-                      child: SizedBox(
-                        height: 120.0,
-                        width: 55.0,
-                        child: MaterialButton(
-                          onPressed: () =>
-                              ref.read(editableProvider.notifier).editable(),
-                          child: const Icon(Icons.edit),
-                        ),
-                      ),
-                    ),
-                  ),
+                ? AppBarButton(
+                    onPressedFunc: () => saveNoteEdit(), icon: Icons.done)
+                : AppBarButton(
+                    onPressedFunc: () =>
+                        ref.read(editableProvider.notifier).editable(),
+                    icon: Icons.edit),
             const SizedBox(
               height: 10,
               width: 10,

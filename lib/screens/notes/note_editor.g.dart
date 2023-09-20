@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'note_editor.dart';
+part of 'edit_note.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$editableHash() => r'42f60fa22cfd57fad61ff354ec63feee1d59bf0b';
+String _$editableHash() => r'e74f559439efc435170602820e73bef1d03634df';
 
 /// See also [Editable].
 @ProviderFor(Editable)

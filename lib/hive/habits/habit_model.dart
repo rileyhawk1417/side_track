@@ -3,7 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:side_track/hive/utils/date_time.dart';
 
-String dbName = 'hive_side_track';
+String dbName = 'side_track_habit_hive';
+String habitsDBName = 'hive_side_track';
 String currHabitList = 'CURRENT_HABIT_LIST';
 String startDate = 'START_DATE';
 String percentSummary = 'PERCENTAGE_SUMMARY_${todaysDateFormatted()}';
@@ -54,7 +55,6 @@ class HabitModel {
   List get todaysHabitList => _todaysHabitList;
   Map<DateTime, int> _heatMapDataSet = {};
   Map<DateTime, int> get heatMapDataSet => _heatMapDataSet;
-  Map<String, dynamic> jsonMap = {};
   String getStartingDate() {
     return _habitBox.get(startDate);
   }
@@ -68,15 +68,15 @@ class HabitModel {
     updateData();
   }
 
-  Future<void> createSampleData() async {
+  void createSampleData() {
     //NOTE: if theres no habit list create a sample list
-    _todaysHabitList.addAll([
+    _todaysHabitList = [
       ["Morning Stretches", false],
       ["Lift Weights", false],
       ["Meditate", false]
-    ]);
+    ];
 
-    await _habitBox.put(startDate, todaysDateFormatted());
+    _habitBox.put(startDate, todaysDateFormatted());
   }
 
   void loadData() {
@@ -95,9 +95,9 @@ class HabitModel {
     loadHeatMap();
   }
 
-  Future<void> updateData() async {
-    await _habitBox.put(todaysDateFormatted(), _todaysHabitList);
-    await _habitBox.put(currHabitList, todaysDateFormatted());
+  void updateData() {
+    _habitBox.put(todaysDateFormatted(), _todaysHabitList);
+    _habitBox.put(currHabitList, _todaysHabitList);
 
     calculateHabitPercentage();
     loadHeatMap();

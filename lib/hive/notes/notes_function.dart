@@ -1,36 +1,23 @@
-import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:side_track/hive/habits/habit_model.dart';
-import 'package:side_track/widgets/dialog_box.dart';
+import 'package:side_track/hive/notes/notes_model.dart';
+// import 'package:side_track/widgets/dialog_box.dart';
 
-//NOTE: Collection of functions for the habit tracker
-void checkBoxTapped(bool? value, int index, WidgetRef ref) {
-  final db = ref.read(habitController);
-  db.onCheckBoxTapped(value, index);
-  db.reloadData();
+void saveNote(String docName, String doc, WidgetRef ref) {
+  final db = ref.read(notesController);
+  db.saveNote(docName, doc);
+  db.syncNotes();
 }
 
-void cancel(BuildContext context, TextEditingController controller) {
-  controller.clear();
-  Navigator.of(context).pop();
+void saveEditNote(int id, String docName, Map<String, dynamic> doc,
+    String createdAt, WidgetRef ref) {
+  final db = ref.read(notesController);
+  HiveHabitNotes _note =
+      HiveHabitNotes(appflowyDoc: doc, docName: docName, dateTime: createdAt);
+  db.getNoteList()[id] = _note;
+  db.syncNotes();
 }
-
-void saveEditHabit(BuildContext context, TextEditingController controller,
-    WidgetRef ref, int index, String val) {
-  final db = ref.read(habitController);
-
-  db.getHabitList()[index][0] = val;
-  controller.clear();
-  Navigator.of(context).pop();
-  db.reloadData();
-}
-
-void deleteHabit(int index, BuildContext context, WidgetRef ref) {
-  final db = ref.read(habitController);
-  db.getHabitList().removeAt(index);
-  db.reloadData();
-}
-
+/*
 void addNewHabit(BuildContext context, WidgetRef ref, String habit,
     TextEditingController controller) {
   final db = ref.read(habitController);
@@ -44,20 +31,21 @@ void addNewHabit(BuildContext context, WidgetRef ref, String habit,
 
 void editHabit(BuildContext context, int index,
     TextEditingController controller, WidgetRef ref) {
-  final db = ref.read(habitController);
+  final db = ref.read(notesController);
   showDialog(
       barrierDismissible: false,
       context: context,
       builder: (context) {
         return DialogBox(
-            dialogTitle: 'Edit Habit',
+            dialogTitle: 'Edit Note',
             cancel: () => cancel(context, controller),
             editHabitText: db.getHabitList()[index][0],
             save: (val) => saveEditHabit(context, controller, ref, index, val));
       });
 }
 
-void saveNewHabit(
+
+void saveNewNote(
     BuildContext context, TextEditingController controller, WidgetRef ref) {
   showDialog(
       barrierDismissible: false,
@@ -72,3 +60,5 @@ void saveNewHabit(
         );
       });
 }
+
+*/

@@ -37,23 +37,31 @@ class HabitBox extends StatelessWidget {
           ),
         ],
       ),
-      child: ListTile(
-          title: Text(habitText),
-          /*
-          //BUG: Does work but delays heat map
-          leading: habitCompleted
-              ? Icon(Icons.check_box)
-              : Icon(Icons.check_box_outline_blank_sharp),
-              */
-          leading: Checkbox(
-            value: habitCompleted,
-            onChanged: onChanged,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.secondary,
+            borderRadius: BorderRadius.circular(12),
           ),
-          tileColor: Theme.of(context).colorScheme.secondary,
-          onTap: () {
-            //TODO: Pass bool function here
-            // checkBoxTapped(!habitCompleted, index, ref);
-          }),
+          child: ListTile(
+              title: Text(habitText),
+              /*
+              //BUG: Does work but delays heat map
+              leading: habitCompleted
+                  ? Icon(Icons.check_box)
+                  : Icon(Icons.check_box_outline_blank_sharp),
+                  */
+              leading: Checkbox(
+                value: habitCompleted,
+                onChanged: onChanged,
+              ),
+              onTap: () {
+                //TODO: Pass bool function here
+                // checkBoxTapped(!habitCompleted, index, ref);
+              }),
+        ),
+      ),
     );
   }
 }

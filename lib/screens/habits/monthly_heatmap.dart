@@ -16,7 +16,7 @@ class MonthlyHeatMap extends StatelessWidget {
       child: HeatMap(
         startDate: createDateTimeObj(startDate),
         endDate: DateTime.now().add(Duration(days: 0)),
-        defaultColor: Theme.of(context).colorScheme.primary,
+        defaultColor: Theme.of(context).canvasColor,
         colorMode: ColorMode.color,
         textColor: Theme.of(context).colorScheme.primary,
         datasets: dataSets,
@@ -37,8 +37,15 @@ class MonthlyHeatMap extends StatelessWidget {
           10: Color.fromARGB(220, 2, 179, 8),
         },
         onClick: (value) {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(value.toString())));
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Theme.of(context).canvasColor,
+              content: Text(
+                value.toString(),
+                style: TextStyle(color: Theme.of(context).colorScheme.primary),
+              ),
+            ),
+          );
         },
       ),
     );

@@ -21,6 +21,27 @@ class NotesDBController extends ChangeNotifier {
     _notes_database.prepData();
   }
 
+  void saveNote(String docName, String doc) {
+    final convertedDoc = jsonDecode(doc);
+    _notes_database._notesList.add(HiveHabitNotes(
+        appflowyDoc: convertedDoc,
+        docName: docName,
+        dateTime: todaysDateFormatted()));
+  }
+
+  void saveEditNote(
+      int id, String title, Map<String, dynamic> doc, String createdAt) {
+    HiveHabitNotes _note =
+        HiveHabitNotes(appflowyDoc: doc, docName: title, dateTime: createdAt);
+    print(_notes_database._notesList[id].docName);
+    _notes_database._notesList[id][_note];
+    /*
+    _notes_database._notesList[id].docName = title;
+    _notes_database._notesList[id].appflowyDoc = doc;
+    _notes_database._notesList[id].dateTime = createdAt;
+    */
+  }
+
   void syncNotes() {
     _notes_database.updateData();
     notifyListeners();
@@ -93,12 +114,12 @@ class NotesModel {
   }
 
   void loadData() {
-    _notesList = _notesBox.get(todaysDateFormatted());
+    _notesList = _notesBox.get(docList);
   }
 
-  Future<void> updateData() async {
-    await _notesBox.put(todaysDateFormatted(), _notesList);
-    await _notesBox.put(docList, todaysDateFormatted());
+  void updateData() {
+    _notesBox.put(todaysDateFormatted(), _notesList);
+    _notesBox.put(docList, _notesList);
   }
 
   Future<void> getNoteByDate(String date, int index) async {

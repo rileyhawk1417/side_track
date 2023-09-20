@@ -37,7 +37,7 @@ class _HomePage extends State<HomePage> {
           backgroundColor: Theme.of(context).colorScheme.background,
           bottomNavigationBar: BottomNav(
             pageFunction: (index) => pageNavigation(index),
-          )),
+          ),),
     );
   }
 }
