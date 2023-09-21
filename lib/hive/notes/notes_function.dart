@@ -28,6 +28,10 @@ class NotesDBController extends ChangeNotifier {
     return _notes_database.loadNoteKeys();
   }
 
+  int getNumberOfNotes() {
+    return _notes_database.notesBox.keys.length;
+  }
+
   void addNote(HiveHabitNotes note) {
     _notes_database.addNewNote(note);
     notifyListeners();

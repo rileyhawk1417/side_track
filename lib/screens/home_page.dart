@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:side_track/components/bottom_navbar.dart';
 import 'package:side_track/screens/habits/habit_screen.dart';
 import 'package:side_track/screens/notes/notes_screen.dart';
-import 'package:side_track/screens/settings_page.dart';
+import 'package:side_track/screens/settings/settings_page.dart';
+import 'package:side_track/screens/stats/stats_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,7 +15,7 @@ class HomePage extends StatefulWidget {
 final List<Widget> _pages = [
   const HabitScreen(),
   const NotesScreen(),
-  // const Text('Stats'),
+  const StatsPage(),
   const SettingsPage(),
 ];
 

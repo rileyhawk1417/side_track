@@ -7,13 +7,17 @@ class SettingsPage extends StatelessWidget {
     return const Center(
         child: Column(
       children: [
-        Text(
-          'About the app',
-          textScaleFactor: 2.0,
+        SizedBox(
+          child: Text(
+            'About the app',
+            textScaleFactor: 2.0,
+          ),
         ),
-        Text(
-          'The app is just for tracking habits & making notes while you are at it',
-          textAlign: TextAlign.center,
+        SizedBox(
+          width: 2.0,
+          child: Text(
+            'The app is just for tracking habits & making notes while you are at it',
+          ),
         ),
       ],
     ));
