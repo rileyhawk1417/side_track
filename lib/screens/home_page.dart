@@ -14,7 +14,7 @@ class HomePage extends StatefulWidget {
 final List<Widget> _pages = [
   const HabitScreen(),
   const NotesScreen(),
-  const Text('Stats'),
+  // const Text('Stats'),
   const SettingsPage(),
 ];
 
@@ -30,14 +30,15 @@ class _HomePage extends State<HomePage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-          body: _pages[_pageIndex],
-          appBar: AppBar(
-            title: const Text('Side Track'),
-          ),
-          backgroundColor: Theme.of(context).colorScheme.background,
-          bottomNavigationBar: BottomNav(
-            pageFunction: (index) => pageNavigation(index),
-          ),),
+        body: _pages[_pageIndex],
+        appBar: AppBar(
+          title: const Text('Side Track'),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.background,
+        bottomNavigationBar: BottomNav(
+          pageFunction: (index) => pageNavigation(index),
+        ),
+      ),
     );
   }
 }

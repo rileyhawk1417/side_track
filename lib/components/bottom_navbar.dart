@@ -22,7 +22,7 @@ class BottomNav extends StatelessWidget {
                 text: 'Home',
               ),
               GButton(icon: Icons.notes, text: 'Notes'),
-              GButton(icon: Icons.query_stats_outlined, text: 'Stats'),
+              // GButton(icon: Icons.query_stats_outlined, text: 'Stats'),
               GButton(icon: Icons.settings, text: 'Settings'),
             ]),
       ),

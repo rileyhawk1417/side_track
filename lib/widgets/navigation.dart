@@ -11,7 +11,7 @@ class HabitFAB extends StatelessWidget {
       child: FloatingActionButton(
           backgroundColor: Theme.of(context).colorScheme.primary,
           onPressed: () => clickFunction(),
-          child: Icon(
+          child: const Icon(
             Icons.add,
           )),
     );
