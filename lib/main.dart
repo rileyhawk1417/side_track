@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:side_track/hive/habits/habit_model.dart';
+import 'package:side_track/hive/notes/notes_function.dart';
 import 'package:side_track/hive/notes/notes_model.dart';
 import 'package:side_track/screens/home_page.dart';
 import 'package:side_track/themes/dark_mode.dart';
@@ -14,7 +15,7 @@ void main() async {
   Hive.registerAdapter(HiveHabitNotesAdapter());
   await Hive.initFlutter();
   await Hive.openBox(dbName);
-  await Hive.openBox(notesDBName);
+  await Hive.openBox<HiveHabitNotes>(notesDBName);
   final habitService = HabitModel();
   final notesService = NotesModel();
   await habitService.prepData();

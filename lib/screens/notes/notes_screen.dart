@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:side_track/hive/notes/notes_function.dart';
 import 'package:side_track/hive/notes/notes_model.dart';
 import 'package:side_track/screens/notes/edit_note.dart';
 import 'package:side_track/screens/notes/add_note.dart';
@@ -10,17 +12,26 @@ class NotesScreen extends ConsumerWidget {
   const NotesScreen({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _notesList = ref.watch(notesController).getNoteList();
+    final noteLength = ref.watch(notesController).syncNotes();
+    final box = Hive.box<HiveHabitNotes>(notesDBName);
     return Scaffold(
       body: ListView.builder(
-        itemCount: _notesList.length,
+        itemCount: noteLength!.length,
         itemBuilder: (context, index) {
-          var noteYear = _notesList[index].dateTime.substring(0, 4);
-          var noteMonth = _notesList[index].dateTime.substring(4, 6);
-          var noteDay = _notesList[index].dateTime.substring(6, 8);
+          int keyList = noteLength[index];
+          HiveHabitNotes? _note = box.get(keyList);
+          var noteYear = _note!.dateTime.substring(0, 4);
+          var noteMonth = _note.dateTime.substring(4, 6);
+          var noteDay = _note.dateTime.substring(6, 8);
           return Slidable(
             endActionPane: ActionPane(motion: const StretchMotion(), children: [
-              SlidableAction(onPressed: (context) {}, icon: Icons.delete),
+              SlidableAction(
+                  backgroundColor: Colors.red.shade600,
+                  borderRadius: BorderRadius.circular(2),
+                  onPressed: (context) {
+                    ref.read(notesController).deleteNote(index);
+                  },
+                  icon: Icons.delete),
             ]),
             child: Padding(
               padding: const EdgeInsets.all(6),
@@ -30,18 +41,18 @@ class NotesScreen extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: ListTile(
-                  title: Text(_notesList[index].docName,
-                      style: const TextStyle(fontSize: 18)),
+                  title:
+                      Text(_note.docName, style: const TextStyle(fontSize: 18)),
                   subtitle: Text('Created on: $noteYear/$noteMonth/$noteDay',
                       style: const TextStyle(
                           fontStyle: FontStyle.italic, fontSize: 14)),
                   onTap: () {
                     Get.to(
                       () => NoteEditor(
-                        noteData: _notesList[index].appflowyDoc,
-                        noteTitle: _notesList[index].docName,
-                        noteListIndex: index,
-                        noteDate: _notesList[index].dateTime,
+                        noteData: _note.appflowyDoc,
+                        noteTitle: _note.docName,
+                        noteListIndex: keyList,
+                        noteDate: _note.dateTime,
                       ),
                     );
                   },

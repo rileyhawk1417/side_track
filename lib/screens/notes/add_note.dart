@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:side_track/hive/notes/notes_function.dart';
 import 'package:side_track/hive/notes/notes_model.dart';
-
+import 'package:side_track/hive/utils/date_time.dart';
 
 List<MobileToolbarItem> mobileToolBar = [
   textDecorationMobileToolbarItem,
@@ -44,25 +44,30 @@ class AppBarButton extends StatelessWidget {
 }
 
 class AddNewNote extends ConsumerWidget {
-  
+  const AddNewNote({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final editorScrollController = ScrollController();
-    //TODO: Fix the blank slate
-    final editorState = EditorState.blank(withInitialText: false);
+    final _prepDoc =
+        jsonEncode(EditorState.blank(withInitialText: true).document.toJson());
+
+    final editorState = EditorState(
+      document: Document.fromJson(
+        Map<String, Object>.from(
+          json.decode(_prepDoc),
+        ),
+      ),
+    );
     TextEditingController editTitle = TextEditingController();
-    /*
-    var _noteTitle =
-        ref.watch(notesController).getNoteList()[noteListIndex].docName;
-    final _encodedNote =
-        ref.watch(notesController).getJsonNote(noteDate, noteListIndex);
-    */
+    //TODO: Refactor & separate this one
     void saveNewNote() {
-    /*
-      saveEditNote(noteListIndex, editTitle.text, editorState.document.toJson(),
-          noteDate, ref);
-    */
-    //Save the note
+      HiveHabitNotes _newNote = HiveHabitNotes(
+          appflowyDoc: editorState.document.toJson(),
+          docName: editTitle.text,
+          dateTime: todaysDateFormatted());
+
+      ref.read(notesController).addNote(_newNote);
+
       ref.read(notesController).syncNotes();
       Navigator.of(context).pop();
     }
@@ -70,15 +75,11 @@ class AddNewNote extends ConsumerWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title:
-            TextField(
-                  controller: editTitle,
-                )
-              ,
+          title: TextField(
+            controller: editTitle,
+          ),
           actions: [
-            AppBarButton(
-                    onPressedFunc: () => saveNewNote(), icon: Icons.done)
-                ,
+            AppBarButton(onPressedFunc: () => saveNewNote(), icon: Icons.done),
             const SizedBox(
               height: 10,
               width: 10,
@@ -91,7 +92,10 @@ class AddNewNote extends ConsumerWidget {
             Expanded(
               child: AppFlowyEditor(
                 editable: true,
-                editorStyle: const EditorStyle.mobile(),
+                editorStyle: EditorStyle.mobile(
+                    textStyleConfiguration: TextStyleConfiguration(
+                        text: TextStyle(
+                            color: Theme.of(context).colorScheme.secondary))),
                 editorState: editorState,
                 scrollController: editorScrollController,
               ),

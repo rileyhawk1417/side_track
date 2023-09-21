@@ -1,64 +1,47 @@
 // import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:side_track/hive/notes/notes_model.dart';
-// import 'package:side_track/widgets/dialog_box.dart';
 
-void saveNote(String docName, String doc, WidgetRef ref) {
-  final db = ref.read(notesController);
-  db.saveNote(docName, doc);
-  db.syncNotes();
+final notesController = ChangeNotifierProvider<NotesDBController>((ref) {
+  final notesData = ref.watch(notesDBService);
+  return NotesDBController(notesData);
+});
+
+class NotesDBController extends ChangeNotifier {
+  NotesDBController(this._notes_database);
+  late final NotesModel _notes_database;
+
+  void prepData() {
+    _notes_database.prepData();
+  }
+
+  void saveEditNote(int id, String title, Map<String, dynamic> doc) {
+    HiveHabitNotes? noteDate = _notes_database.notesBox.get(id);
+    HiveHabitNotes editedNotes = HiveHabitNotes(
+        appflowyDoc: doc, docName: title, dateTime: noteDate!.dateTime);
+    _notes_database.notesBox.put(id, editedNotes);
+    notifyListeners();
+  }
+
+  List<int>? syncNotes() {
+    return _notes_database.loadNoteKeys();
+  }
+
+  void addNote(HiveHabitNotes note) {
+    _notes_database.addNewNote(note);
+    notifyListeners();
+  }
+
+  HiveHabitNotes findNote(int index) {
+    HiveHabitNotes? searchedNote = _notes_database.notesBox.get(index);
+    return searchedNote!;
+  }
+
+  void deleteNote(int noteIndex) {
+    _notes_database.deleteNote(noteIndex);
+    notifyListeners();
+  }
 }
 
-void saveEditNote(int id, String docName, Map<String, dynamic> doc,
-    String createdAt, WidgetRef ref) {
-  final db = ref.read(notesController);
-  HiveHabitNotes _note =
-      HiveHabitNotes(appflowyDoc: doc, docName: docName, dateTime: createdAt);
-  db.getNoteList()[id] = _note;
-  db.syncNotes();
-}
-/*
-void addNewHabit(BuildContext context, WidgetRef ref, String habit,
-    TextEditingController controller) {
-  final db = ref.read(habitController);
-  db.getHabitList().add([habit, false]);
-
-  controller.clear();
-  Navigator.of(context).pop();
-
-  db.reloadData();
-}
-
-void editHabit(BuildContext context, int index,
-    TextEditingController controller, WidgetRef ref) {
-  final db = ref.read(notesController);
-  showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (context) {
-        return DialogBox(
-            dialogTitle: 'Edit Note',
-            cancel: () => cancel(context, controller),
-            editHabitText: db.getHabitList()[index][0],
-            save: (val) => saveEditHabit(context, controller, ref, index, val));
-      });
-}
-
-
-void saveNewNote(
-    BuildContext context, TextEditingController controller, WidgetRef ref) {
-  showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (context) {
-        return DialogBox(
-          cancel: () => cancel(context, controller),
-          save: (value) {
-            addNewHabit(context, ref, value, controller);
-          },
-          dialogTitle: 'Add New Habit',
-        );
-      });
-}
-
-*/
+final notesDBService = Provider<NotesModel>((_) => NotesModel());

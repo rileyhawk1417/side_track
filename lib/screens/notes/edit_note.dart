@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:side_track/hive/notes/notes_function.dart';
 import 'package:side_track/hive/notes/notes_model.dart';
-part 'note_editor.g.dart';
+part 'edit_note.g.dart';
 
 List<MobileToolbarItem> mobileToolBar = [
   textDecorationMobileToolbarItem,
@@ -67,11 +67,10 @@ class NoteEditor extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final editorScrollController = ScrollController();
+    HiveHabitNotes searchedNote =
+        ref.watch(notesController).findNote(noteListIndex);
     var _editable = ref.watch(editableProvider);
-    var _noteTitle =
-        ref.watch(notesController).getNoteList()[noteListIndex].docName;
-    final _encodedNote =
-        ref.watch(notesController).getJsonNote(noteDate, noteListIndex);
+    final _encodedNote = jsonEncode(searchedNote.appflowyDoc);
     final editorState = EditorState(
       document: Document.fromJson(
         Map<String, dynamic>.from(
@@ -79,12 +78,11 @@ class NoteEditor extends ConsumerWidget {
         ),
       ),
     );
-    TextEditingController editTitle = TextEditingController(text: _noteTitle);
+    TextEditingController editTitle = TextEditingController(text: noteTitle);
     void saveNoteEdit() {
-      print('lolz');
       ref.read(editableProvider.notifier).editable();
-      saveEditNote(noteListIndex, editTitle.text, editorState.document.toJson(),
-          noteDate, ref);
+      ref.read(notesController).saveEditNote(
+          noteListIndex, editTitle.text, editorState.document.toJson());
       ref.read(notesController).syncNotes();
     }
 
@@ -95,7 +93,7 @@ class NoteEditor extends ConsumerWidget {
               ? TextField(
                   controller: editTitle,
                 )
-              : Text(_noteTitle),
+              : Text(noteTitle),
           actions: [
             _editable
                 ? AppBarButton(
