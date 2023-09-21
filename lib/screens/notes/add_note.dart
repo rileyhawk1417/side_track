@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:appflowy_editor/appflowy_editor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:side_track/hive/notes/notes_function.dart';
 import 'package:side_track/hive/notes/notes_model.dart';
 import 'package:side_track/hive/utils/date_time.dart';
@@ -47,7 +46,6 @@ class AddNewNote extends ConsumerWidget {
   const AddNewNote({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final editorScrollController = ScrollController();
     final _prepDoc =
         jsonEncode(EditorState.blank(withInitialText: true).document.toJson());
 
@@ -58,6 +56,9 @@ class AddNewNote extends ConsumerWidget {
         ),
       ),
     );
+
+    final editorScrollController =
+        EditorScrollController(editorState: editorState);
     TextEditingController editTitle = TextEditingController();
     //TODO: Refactor & separate this one
     void saveNewNote() {
@@ -77,6 +78,8 @@ class AddNewNote extends ConsumerWidget {
         appBar: AppBar(
           title: TextField(
             controller: editTitle,
+                  style:
+                      TextStyle(color: Theme.of(context).colorScheme.primary),
           ),
           actions: [
             AppBarButton(onPressedFunc: () => saveNewNote(), icon: Icons.done),
@@ -97,10 +100,10 @@ class AddNewNote extends ConsumerWidget {
                         text: TextStyle(
                             color: Theme.of(context).colorScheme.secondary))),
                 editorState: editorState,
-                scrollController: editorScrollController,
+                editorScrollController: editorScrollController,
               ),
             ),
-            MobileToolbar(editorState: editorState, toolbarItems: mobileToolBar)
+            // MobileToolbar(editorState: editorState, toolbarItems: mobileToolBar)
           ],
         ),
       ),

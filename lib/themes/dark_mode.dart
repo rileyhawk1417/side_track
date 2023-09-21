@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 ThemeData darkMode = ThemeData(
   useMaterial3: true,
   brightness: Brightness.dark,
+  iconTheme: IconThemeData(color: Colors.grey.shade400),
   colorScheme: ColorScheme.dark(
     background: Colors.grey.shade800,
     primary: Colors.white60,

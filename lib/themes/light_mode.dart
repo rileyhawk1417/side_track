@@ -6,9 +6,11 @@ ThemeData lightMode = ThemeData(
   primaryColorLight: Colors.grey.shade500,
   canvasColor: Colors.grey.shade700,
   colorScheme: ColorScheme.light(
-      background: Colors.white,
-      primary: Colors.black,
-      secondary: Colors.grey.shade200),
+    background: Colors.white,
+    primary: Colors.black,
+    secondary: Colors.grey.shade200,
+    onSurface: Colors.grey.shade700,
+  ),
   appBarTheme: const AppBarTheme(
     backgroundColor: Colors.transparent,
     elevation: 0,

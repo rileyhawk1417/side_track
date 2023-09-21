@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:side_track/hive/notes/notes_function.dart';
 import 'package:side_track/hive/notes/notes_model.dart';
+import 'package:side_track/themes/constants.dart';
 part 'edit_note.g.dart';
 
 List<MobileToolbarItem> mobileToolBar = [
@@ -66,7 +67,6 @@ class NoteEditor extends ConsumerWidget {
   });
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final editorScrollController = ScrollController();
     HiveHabitNotes searchedNote =
         ref.watch(notesController).findNote(noteListIndex);
     var _editable = ref.watch(editableProvider);
@@ -78,6 +78,9 @@ class NoteEditor extends ConsumerWidget {
         ),
       ),
     );
+
+    final editorScrollController =
+        EditorScrollController(editorState: editorState);
     TextEditingController editTitle = TextEditingController(text: noteTitle);
     void saveNoteEdit() {
       ref.read(editableProvider.notifier).editable();
@@ -91,7 +94,10 @@ class NoteEditor extends ConsumerWidget {
         appBar: AppBar(
           title: _editable
               ? TextField(
+                  decoration: const InputDecoration(focusColor: Colors.blue),
                   controller: editTitle,
+                  style:
+                      TextStyle(color: Theme.of(context).colorScheme.primary),
                 )
               : Text(noteTitle),
           actions: [
@@ -114,12 +120,14 @@ class NoteEditor extends ConsumerWidget {
             Expanded(
               child: AppFlowyEditor(
                 editable: _editable,
-                editorStyle: const EditorStyle.mobile(),
+                editorStyle: EditorStyle.mobile(
+                  textStyleConfiguration: editorTextStyle(context),
+                ),
                 editorState: editorState,
-                scrollController: editorScrollController,
+                editorScrollController: editorScrollController,
               ),
             ),
-            MobileToolbar(editorState: editorState, toolbarItems: mobileToolBar)
+            // MobileToolbar(editorState: editorState, toolbarItems: mobileToolBar)
           ],
         ),
       ),
