@@ -1,16 +1,24 @@
-# side_track
+# Side Track
 
-A new Flutter project.
+Well this is meant to be a habit tracker but with a twist.
 
-## Getting Started
+#### Habit Tracking
 
-This project is a starting point for a Flutter application.
+Tracking daily habits and using a heatmap to display the days where the habits were completed.
+Its following a similar style to how Github's commit history works.
+Inspiration comes from [Mitch Koko](https://www.youtube.com/watch?v=2VKpq4h3Sdw&pp=ygUYbWl0Y2gga29rbyBoYWJpdCB0cmFja2Vy)
 
-A few resources to get you started if this is your first Flutter project:
+#### Note Writeups
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+There is a place for notes, just to add for the day or really just to add randomly.
+I preferred using AppFlowyEditor its still fairly new but its stable enough to use in production.
+This is because I like writing my notes in Markdown so very useful.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+#### Ingredients Used
+
+- [AppFlowy Editor](https://pub.dev/packages/appflowy_editor) highly customizable rich text editor.
+- [Hive Database](https://pub.dev/packages/hive) uses a key/value pair time of storage. Aims to have faster CRUD operation times. Of course there is a limit for large databases.
+- [Riverpod](https://pub.dev/packages/riverpod) an alternative to the default Provider which has alot of issues that need fixing, its also simple to use really.
+- [Flutter heatmap](https://pub.dev/packages/flutter_heatmap_calendar) displays a nice heatmap for the habit tracker.
+- [Get](https://pub.dev/packages/get) package allows one to navigate to different screens without using Navigator.of(context).push(ScreenName()).
+
