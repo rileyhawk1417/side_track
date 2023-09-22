@@ -41,6 +41,7 @@ class MyApp extends StatelessWidget {
       title: 'Side Track',
       theme: lightMode,
       darkTheme: darkMode,
+      debugShowCheckedModeBanner: false,
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,

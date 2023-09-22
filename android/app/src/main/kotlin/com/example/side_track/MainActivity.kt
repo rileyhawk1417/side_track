@@ -1,4 +1,4 @@
-package com.example.side_track
+package com.rileyhawk1417.side_track
 
 import io.flutter.embedding.android.FlutterActivity
 

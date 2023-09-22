@@ -6,7 +6,7 @@ Well this is meant to be a habit tracker but with a twist.
 
 Tracking daily habits and using a heatmap to display the days where the habits were completed.
 Its following a similar style to how Github's commit history works.
-Inspiration comes from [Mitch Koko](https://www.youtube.com/watch?v=2VKpq4h3Sdw&pp=ygUYbWl0Y2gga29rbyBoYWJpdCB0cmFja2Vy)
+Inspiration comes from [Mitch Koko](https://www.youtube.com/watch?v=2VKpq4h3Sdw&pp=ygUYbWl0Y2gga29rbyBoYWJpdCB0cmFja2Vy) habit tracker tutorial
 
 #### Note Writeups
 
