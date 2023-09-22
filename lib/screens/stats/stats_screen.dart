@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:side_track/components/adaptive_text.dart';
 import 'package:side_track/hive/habits/habit_model.dart';
 import 'package:side_track/hive/notes/notes_function.dart';
 
@@ -16,27 +17,56 @@ class StatsPage extends ConsumerWidget {
         _completedDailyHabits++;
       }
     }
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('Habits completed today: '),
-            const SizedBox(width: 10.0),
-            Text('$_completedDailyHabits/${_habitList.length}')
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('Number of notes all time: '),
-            const SizedBox(width: 10.0),
-            Text('$_noteLength'),
-          ],
-        )
-      ],
+
+    const TextStyle cardTextStyle = TextStyle(color: Colors.white);
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Card(
+            color: Theme.of(context).canvasColor,
+            child: SizedBox(
+              width: 300,
+              height: 80,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const AdaptiveText(
+                    text: 'Habits completed today: ',
+                    textStyle: cardTextStyle,
+                  ),
+                  const SizedBox(width: 10.0),
+                  AdaptiveText(
+                    text: '$_completedDailyHabits/${_habitList.length}',
+                    textStyle: cardTextStyle,
+                  )
+                ],
+              ),
+            ),
+          ),
+          Card(
+            color: Theme.of(context).canvasColor,
+            child: SizedBox(
+              width: 300,
+              height: 80,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const AdaptiveText(
+                    text: 'Number of notes all time: ',
+                    textStyle: cardTextStyle,
+                  ),
+                  const SizedBox(width: 10.0),
+                  AdaptiveText(
+                    text: '$_noteLength',
+                    textStyle: cardTextStyle,
+                  ),
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }

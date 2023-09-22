@@ -9,7 +9,7 @@ class HabitFAB extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(40),
       child: FloatingActionButton(
-          backgroundColor: Theme.of(context).colorScheme.primary,
+          backgroundColor: Theme.of(context).primaryColor,
           onPressed: () => clickFunction(),
           child: const Icon(
             Icons.add,
