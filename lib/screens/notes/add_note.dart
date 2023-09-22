@@ -3,9 +3,11 @@ import 'dart:convert';
 import 'package:appflowy_editor/appflowy_editor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:side_track/components/appbar_button.dart';
 import 'package:side_track/hive/notes/notes_function.dart';
 import 'package:side_track/hive/notes/notes_model.dart';
 import 'package:side_track/hive/utils/date_time.dart';
+import 'package:side_track/themes/constants.dart';
 
 List<MobileToolbarItem> mobileToolBar = [
   textDecorationMobileToolbarItem,
@@ -18,29 +20,6 @@ List<MobileToolbarItem> mobileToolBar = [
   dividerMobileToolbarItem,
   codeMobileToolbarItem,
 ];
-
-class AppBarButton extends StatelessWidget {
-  const AppBarButton(
-      {super.key, required this.onPressedFunc, required this.icon});
-  final void Function() onPressedFunc;
-  final IconData icon;
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(150),
-        child: SizedBox(
-          height: 120.0,
-          width: 55.0,
-          child: MaterialButton(
-            onPressed: () => onPressedFunc(),
-            child: Icon(icon),
-          ),
-        ),
-      ),
-    );
-  }
-}
 
 class AddNewNote extends ConsumerWidget {
   const AddNewNote({super.key});
@@ -60,7 +39,6 @@ class AddNewNote extends ConsumerWidget {
     final editorScrollController =
         EditorScrollController(editorState: editorState);
     TextEditingController editTitle = TextEditingController();
-    //TODO: Refactor & separate this one
     void saveNewNote() {
       HiveHabitNotes _newNote = HiveHabitNotes(
           appflowyDoc: editorState.document.toJson(),
@@ -76,6 +54,9 @@ class AddNewNote extends ConsumerWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          leading: AppBarButton(
+              onPressedFunc: () => Navigator.of(context).pop(),
+              icon: Icons.arrow_back),
           title: TextField(
             controller: editTitle,
             style: TextStyle(color: Theme.of(context).colorScheme.primary),
@@ -95,14 +76,12 @@ class AddNewNote extends ConsumerWidget {
               child: AppFlowyEditor(
                 editable: true,
                 editorStyle: EditorStyle.mobile(
-                    textStyleConfiguration: TextStyleConfiguration(
-                        text: TextStyle(
-                            color: Theme.of(context).colorScheme.primary))),
+                    textStyleConfiguration: editorTextStyle(context)),
                 editorState: editorState,
                 editorScrollController: editorScrollController,
               ),
             ),
-            // MobileToolbar(editorState: editorState, toolbarItems: mobileToolBar)
+            MobileToolbar(editorState: editorState, toolbarItems: mobileToolBar)
           ],
         ),
       ),
