@@ -13,6 +13,7 @@ class BottomNav extends StatelessWidget {
         child: GNav(
             backgroundColor: Theme.of(context).colorScheme.background,
             tabBackgroundColor: Theme.of(context).colorScheme.secondary,
+            activeColor: Theme.of(context).colorScheme.primary,
             gap: 8,
             padding: const EdgeInsets.all(16.0),
             onTabChange: (index) => pageFunction!(index),
@@ -22,7 +23,7 @@ class BottomNav extends StatelessWidget {
                 text: 'Home',
               ),
               GButton(icon: Icons.notes, text: 'Notes'),
-              // GButton(icon: Icons.query_stats_outlined, text: 'Stats'),
+              GButton(icon: Icons.query_stats_outlined, text: 'Stats'),
               GButton(icon: Icons.settings, text: 'Settings'),
             ]),
       ),

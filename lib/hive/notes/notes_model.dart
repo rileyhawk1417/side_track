@@ -65,6 +65,10 @@ class NotesModel {
     _notesBox.deleteAt(noteIndex);
   }
 
+  int numberOfNotes() {
+    return _notesBox.keys.length;
+  }
+
 //TODO: Search notes by title function
   HiveHabitNotes? getNoteByDate(String noteTitle, int index) {
     HiveHabitNotes? searchedTitle;

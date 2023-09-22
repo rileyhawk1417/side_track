@@ -65,8 +65,8 @@ class NotesScreen extends ConsumerWidget {
       floatingActionButton: ClipRRect(
         borderRadius: BorderRadius.circular(40),
         child: FloatingActionButton(
-          backgroundColor: Theme.of(context).colorScheme.primary,
-          onPressed: () => Get.to(() => AddNewNote()),
+          backgroundColor: Theme.of(context).primaryColor,
+          onPressed: () => Get.to(() => const AddNewNote()),
           child: const Icon(
             Icons.add,
           ),

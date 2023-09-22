@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 ThemeData lightMode = ThemeData(
   useMaterial3: true,
   brightness: Brightness.light,
-  primaryColorLight: Colors.grey.shade500,
+  primaryColor: Colors.black,
   canvasColor: Colors.grey.shade700,
   colorScheme: ColorScheme.light(
     background: Colors.white,

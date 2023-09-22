@@ -56,6 +56,7 @@ class HabitBox extends StatelessWidget {
                 value: habitCompleted,
                 onChanged: onChanged,
               ),
+              trailing: const Icon(Icons.arrow_back),
               onTap: () {
                 //TODO: Pass bool function here
                 // checkBoxTapped(!habitCompleted, index, ref);

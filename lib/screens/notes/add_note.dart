@@ -78,8 +78,7 @@ class AddNewNote extends ConsumerWidget {
         appBar: AppBar(
           title: TextField(
             controller: editTitle,
-                  style:
-                      TextStyle(color: Theme.of(context).colorScheme.primary),
+            style: TextStyle(color: Theme.of(context).colorScheme.primary),
           ),
           actions: [
             AppBarButton(onPressedFunc: () => saveNewNote(), icon: Icons.done),
@@ -98,7 +97,7 @@ class AddNewNote extends ConsumerWidget {
                 editorStyle: EditorStyle.mobile(
                     textStyleConfiguration: TextStyleConfiguration(
                         text: TextStyle(
-                            color: Theme.of(context).colorScheme.secondary))),
+                            color: Theme.of(context).colorScheme.primary))),
                 editorState: editorState,
                 editorScrollController: editorScrollController,
               ),

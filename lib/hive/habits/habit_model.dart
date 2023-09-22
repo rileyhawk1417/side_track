@@ -46,6 +46,7 @@ class HabitDBController extends ChangeNotifier {
   List<dynamic> getHabitList() {
     return _habit_database.todaysHabitList;
   }
+  
 }
 
 final habitDBService = Provider<HabitModel>((_) => HabitModel());
