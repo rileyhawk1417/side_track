@@ -7,7 +7,7 @@ String dbName = 'side_track_habit_hive';
 String habitsDBName = 'hive_side_track';
 String currHabitList = 'CURRENT_HABIT_LIST';
 String startDate = 'START_DATE';
-String percentSummary = 'PERCENTAGE_SUMMARY_${todaysDateFormatted()}';
+String percentSummary = 'PERCENTAGE_SUMMARY_';
 final _habitBox = Hive.box(dbName);
 
 //NOTE: Riverpod ChangeNotifier for class
@@ -46,7 +46,6 @@ class HabitDBController extends ChangeNotifier {
   List<dynamic> getHabitList() {
     return _habit_database.todaysHabitList;
   }
-  
 }
 
 final habitDBService = Provider<HabitModel>((_) => HabitModel());
@@ -99,7 +98,6 @@ class HabitModel {
   void updateData() {
     _habitBox.put(todaysDateFormatted(), _todaysHabitList);
     _habitBox.put(currHabitList, _todaysHabitList);
-
     calculateHabitPercentage();
     loadHeatMap();
   }
@@ -115,7 +113,7 @@ class HabitModel {
     String percent = _todaysHabitList.isEmpty
         ? '0.0'
         : (completedHabits / _todaysHabitList.length).toStringAsFixed(1);
-    _habitBox.put('${percentSummary}_${todaysDateFormatted()}', percent);
+    _habitBox.put('$percentSummary${todaysDateFormatted()}', percent);
   }
 
   void loadHeatMap() {
@@ -129,7 +127,7 @@ class HabitModel {
       );
 
       double strength =
-          double.parse(_habitBox.get('${percentSummary}_$yyyymmdd') ?? '0.0');
+          double.parse(_habitBox.get('$percentSummary$yyyymmdd') ?? '0.0');
 
       int year = habitStartDate.add(Duration(days: idx)).year;
       int month = habitStartDate.add(Duration(days: idx)).month;
