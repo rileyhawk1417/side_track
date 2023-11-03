@@ -29,8 +29,7 @@ class HabitScreen extends ConsumerWidget {
                 return HabitBox(
                   habitText: _habits[index][0],
                   habitCompleted: _habits[index][1],
-                  onChanged: (changedValue) =>
-                      checkBoxTapped(changedValue, index, ref),
+                  index: index,
                   edit: (context) =>
                       editHabit(context, index, textController, ref),
                   delete: (context) => deleteHabit(index, context, ref),
