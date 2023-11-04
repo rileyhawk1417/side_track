@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:side_track/hive/habits/habit_functions.dart';
 import 'package:side_track/hive/habits/habit_model.dart';
-import 'package:side_track/screens/habits/monthly_heatmap.dart';
 import 'package:side_track/widgets/habit_box.dart';
-import 'package:side_track/widgets/navigation.dart';
 
 class VisitHabitScreen extends ConsumerWidget {
   const VisitHabitScreen(

@@ -11,7 +11,6 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePage();
 }
 
-//NOTE: Main Widget
 final List<Widget> _pages = [
   const HabitScreen(),
   const NotesScreen(),
@@ -29,16 +28,14 @@ class _HomePage extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: _pages[_pageIndex],
-        appBar: AppBar(
-          title: const Text('Side Track'),
-        ),
-        backgroundColor: Theme.of(context).colorScheme.background,
-        bottomNavigationBar: BottomNav(
-          pageFunction: (index) => pageNavigation(index),
-        ),
+    return Scaffold(
+      body: _pages[_pageIndex],
+      appBar: AppBar(
+        title: const Text('Side Track'),
+      ),
+      backgroundColor: Theme.of(context).colorScheme.background,
+      bottomNavigationBar: BottomNav(
+        pageFunction: (index) => pageNavigation(index),
       ),
     );
   }

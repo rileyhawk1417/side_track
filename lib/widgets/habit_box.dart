@@ -47,7 +47,6 @@ class HabitBoxState extends ConsumerState<HabitBox> {
         ],
       ),
       child: SizedBox(
-        //TODO: Remove hard coded size
         child: Center(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -76,7 +75,7 @@ class HabitBoxState extends ConsumerState<HabitBox> {
                   val = !val;
                   ref
                       .read(habitController)
-                      .onCheckBoxTapped(val, widget.index, widget?.date);
+                      .onCheckBoxTapped(val, widget.index, widget.date);
                 }),
           ),
         ),
