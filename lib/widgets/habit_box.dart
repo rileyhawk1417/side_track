@@ -49,7 +49,7 @@ class HabitBoxState extends ConsumerState<HabitBox> {
       child: SizedBox(
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(10.0),
             child: ListTile(
                 visualDensity: const VisualDensity(vertical: 4),
                 splashColor: Colors.green,

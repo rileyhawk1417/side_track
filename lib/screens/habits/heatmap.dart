@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 import 'package:side_track/hive/utils/date_time.dart';
 import 'package:side_track/screens/habits/visit_habit.dart';
 
-class MonthlyHeatMap extends StatelessWidget {
-  const MonthlyHeatMap(
+class CustomHeatMap extends StatelessWidget {
+  const CustomHeatMap(
       {super.key, required this.dataSets, required this.startDate});
 
   final Map<DateTime, int>? dataSets;
@@ -16,14 +16,17 @@ class MonthlyHeatMap extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.only(top: 25),
       margin: const EdgeInsets.only(bottom: 5.0),
-      child: HeatMapCalendar(
-        initDate: createDateTimeObj(startDate),
+      child: HeatMap(
+        // margin: const EdgeInsets.only(bottom: 5.0),
+        startDate: createDateTimeObj(startDate),
+        endDate: DateTime.now().add(const Duration(days: 0)),
         defaultColor: Theme.of(context).canvasColor,
         colorMode: ColorMode.color,
         textColor: Theme.of(context).primaryColor,
-        weekTextColor: Theme.of(context).primaryColor,
         datasets: dataSets,
-        size: 40,
+        scrollable: true,
+        size: 30,
+        showText: true,
         showColorTip: false,
         colorsets: const {
           1: Color.fromARGB(20, 2, 179, 8),

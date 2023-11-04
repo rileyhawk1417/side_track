@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:side_track/components/adaptive_text.dart';
 import 'package:side_track/hive/habits/habit_model.dart';
 import 'package:side_track/hive/notes/notes_function.dart';
+import 'package:side_track/screens/habits/monthly_heatmap.dart';
 
 class StatsPage extends ConsumerWidget {
   const StatsPage({super.key});
@@ -37,6 +38,10 @@ class StatsPage extends ConsumerWidget {
                 style: bigText,
               ),
             ],
+          ),
+          MonthlyHeatMap(
+            dataSets: ref.watch(habitController).getHeatMap(),
+            startDate: ref.watch(habitController).getStartingDate(),
           ),
           const SizedBox(
             height: 20,

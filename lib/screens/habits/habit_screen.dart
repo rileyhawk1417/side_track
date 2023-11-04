@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:side_track/hive/habits/habit_functions.dart';
 import 'package:side_track/hive/habits/habit_model.dart';
-import 'package:side_track/screens/habits/monthly_heatmap.dart';
+import 'package:side_track/screens/habits/heatmap.dart';
 import 'package:side_track/widgets/habit_box.dart';
 import 'package:side_track/widgets/navigation.dart';
 
@@ -17,7 +17,7 @@ class HabitScreen extends ConsumerWidget {
       body: Center(
         child: ListView(
           children: [
-            MonthlyHeatMap(
+            CustomHeatMap(
               dataSets: ref.watch(habitController).getHeatMap(),
               startDate: ref.watch(habitController).getStartingDate(),
             ),

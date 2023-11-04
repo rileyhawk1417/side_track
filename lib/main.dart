@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:side_track/hive/habits/habit_model.dart';
 import 'package:side_track/hive/notes/notes_function.dart';
 import 'package:side_track/hive/notes/notes_model.dart';
@@ -10,8 +11,13 @@ import 'package:side_track/screens/home_page.dart';
 import 'package:side_track/themes/dark_mode.dart';
 import 'package:side_track/themes/light_mode.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:upgrader/upgrader.dart';
 
+String appVersion = '';
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  PackageInfo pkgInfo = await PackageInfo.fromPlatform();
+  appVersion = pkgInfo.version;
   Hive.registerAdapter(HiveHabitNotesAdapter());
   await Hive.initFlutter();
   await Hive.openBox(dbName);
@@ -20,6 +26,8 @@ void main() async {
   final notesService = NotesModel();
   await habitService.prepData();
   await notesService.prepData();
+
+  await Upgrader.clearSavedSettings();
   runApp(
     ProviderScope(overrides: [
       /*NOTE: Override needed to replace db service in the other file with current one
@@ -37,6 +45,26 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //TODO: Add this config in later
+    /*
+    final appcastURL =
+        'https://raw.githubusercontent.com/larryaasen/upgrader/master/test/testappcast.xml';
+    final cfg = AppcastConfiguration(url: appcastURL, supportedOS: ['android']);
+    return MaterialApp(
+      title: 'Upgrader demo',
+      home: Scaffold(
+          appBar: AppBar(title: Text('Upgrader')),
+          body: Column(children: [
+            Container(
+              margin: EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 0.0),
+              child: UpgradeCard(
+                  upgrader: Upgrader(
+                      appcastConfig: cfg, showIgnore: true, showLater: true)),
+            ),
+            Text('Checking for update!!!')
+          ])),
+    );
+    */
     return GetMaterialApp(
       title: 'Side Track',
       theme: lightMode,
