@@ -13,9 +13,6 @@ class MonthlyHeatMap extends StatelessWidget {
   final String startDate;
   @override
   Widget build(BuildContext context) {
-    dataSets!.forEach((k, v) {
-      print(v);
-    });
     return Container(
       padding: const EdgeInsets.only(top: 25, bottom: 25),
       child: HeatMap(

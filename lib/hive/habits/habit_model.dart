@@ -57,6 +57,10 @@ class HabitDBController extends ChangeNotifier {
 
     return _habit_database._selectedHabitList;
   }
+
+  int getHabitStreakDays() {
+    return _habit_database._habitStreakDays;
+  }
 }
 
 final habitDBService = Provider<HabitModel>((_) => HabitModel());
@@ -64,8 +68,10 @@ final habitDBService = Provider<HabitModel>((_) => HabitModel());
 class HabitModel {
   List _todaysHabitList = [];
   List _selectedHabitList = [];
+  int _habitStreakDays = 0;
   List get todaysHabitList => _todaysHabitList;
   List get selectedHabitList => _selectedHabitList;
+  int get habitStreakDays => _habitStreakDays;
   Map<DateTime, int> _heatMapDataSet = {};
   Map<DateTime, int> get heatMapDataSet => _heatMapDataSet;
   String getStartingDate() {
@@ -101,6 +107,15 @@ class HabitModel {
     }
   }
 
+  /// Count the number of days the habit was done
+  void countStreakHabitDays() {
+    _heatMapDataSet.forEach((key, value) {
+      if (value > 0) {
+        _habitStreakDays += 1;
+      }
+    });
+  }
+
   void loadData() {
     if (_habitBox.get(todaysDateFormatted()) == null) {
       //if its a new day get the habit list then set everything to false
@@ -115,6 +130,7 @@ class HabitModel {
 
     calculateHabitPercentage();
     loadHeatMap();
+    countStreakHabitDays();
   }
 
   void updateData(String? date) {
