@@ -4,9 +4,9 @@ import 'package:side_track/hive/habits/habit_model.dart';
 import 'package:side_track/widgets/dialog_box.dart';
 
 //NOTE: Collection of functions for the habit tracker
-void checkBoxTapped(bool? value, int index, WidgetRef ref) {
+void checkBoxTapped(bool? value, int index, WidgetRef ref, String? date) {
   final db = ref.read(habitController);
-  db.onCheckBoxTapped(value, index);
+  db.onCheckBoxTapped(value, index, date);
   db.reloadData();
 }
 

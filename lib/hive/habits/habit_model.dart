@@ -6,6 +6,7 @@ import 'package:side_track/hive/utils/date_time.dart';
 String dbName = 'side_track_habit_hive';
 String habitsDBName = 'hive_side_track';
 String currHabitList = 'CURRENT_HABIT_LIST';
+String prevHabitList = 'PREV_HABIT_LIST';
 String startDate = 'START_DATE';
 String percentSummary = 'PERCENTAGE_SUMMARY_';
 final _habitBox = Hive.box(dbName);
@@ -21,7 +22,11 @@ class HabitDBController extends ChangeNotifier {
   HabitDBController(this._habit_database);
   late final HabitModel _habit_database;
 
-  void onCheckBoxTapped(bool? check, int index) {
+  void onCheckBoxTapped(bool? check, int index, String? date) {
+    if (date != null) {
+      _habit_database._selectedHabitList[index][1] = check;
+      _habit_database.updateData(date);
+    }
     _habit_database.todaysHabitList[index][1] = check;
     notifyListeners();
   }
@@ -31,7 +36,7 @@ class HabitDBController extends ChangeNotifier {
   }
 
   void reloadData() {
-    _habit_database.updateData();
+    _habit_database.updateData(null);
     notifyListeners();
   }
 
@@ -46,13 +51,21 @@ class HabitDBController extends ChangeNotifier {
   List<dynamic> getHabitList() {
     return _habit_database.todaysHabitList;
   }
+
+  List<dynamic> fetchHabit(String date) {
+    _habit_database.fetchHabit(date);
+
+    return _habit_database._selectedHabitList;
+  }
 }
 
 final habitDBService = Provider<HabitModel>((_) => HabitModel());
 
 class HabitModel {
   List _todaysHabitList = [];
+  List _selectedHabitList = [];
   List get todaysHabitList => _todaysHabitList;
+  List get selectedHabitList => _selectedHabitList;
   Map<DateTime, int> _heatMapDataSet = {};
   Map<DateTime, int> get heatMapDataSet => _heatMapDataSet;
   String getStartingDate() {
@@ -65,7 +78,7 @@ class HabitModel {
     } else {
       loadData();
     }
-    updateData();
+    updateData(null);
   }
 
   void createSampleData() {
@@ -77,6 +90,15 @@ class HabitModel {
     ];
 
     _habitBox.put(startDate, todaysDateFormatted());
+  }
+
+  void fetchHabit(String? date) {
+    if (_habitBox.get(date) == null) {
+      _selectedHabitList = [];
+      return;
+    } else {
+      _selectedHabitList = _habitBox.get(date);
+    }
   }
 
   void loadData() {
@@ -95,13 +117,20 @@ class HabitModel {
     loadHeatMap();
   }
 
-  void updateData() {
+  void updateData(String? date) {
+    if (date != null) {
+      _habitBox.put(date, selectedHabitList);
+      _habitBox.put(prevHabitList, selectedHabitList);
+      calculateHabitPercentage();
+      loadHeatMap();
+    }
     _habitBox.put(todaysDateFormatted(), _todaysHabitList);
     _habitBox.put(currHabitList, _todaysHabitList);
     calculateHabitPercentage();
     loadHeatMap();
   }
 
+//TODO: Add calculations for previous habits
 //NOTE: Calendar Methods
   void calculateHabitPercentage() {
     int completedHabits = 0;

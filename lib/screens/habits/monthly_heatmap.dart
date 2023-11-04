@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_heatmap_calendar/flutter_heatmap_calendar.dart';
+import 'package:get/get.dart';
 import 'package:side_track/hive/utils/date_time.dart';
+import 'package:side_track/screens/habits/visit_habit.dart';
 
 class MonthlyHeatMap extends StatelessWidget {
   const MonthlyHeatMap(
@@ -11,11 +13,14 @@ class MonthlyHeatMap extends StatelessWidget {
   final String startDate;
   @override
   Widget build(BuildContext context) {
+    dataSets!.forEach((k, v) {
+      print(v);
+    });
     return Container(
       padding: const EdgeInsets.only(top: 25, bottom: 25),
       child: HeatMap(
         startDate: createDateTimeObj(startDate),
-        endDate: DateTime.now().add(Duration(days: 0)),
+        endDate: DateTime.now().add(const Duration(days: 0)),
         defaultColor: Theme.of(context).canvasColor,
         colorMode: ColorMode.color,
         textColor: Theme.of(context).colorScheme.primary,
@@ -37,15 +42,11 @@ class MonthlyHeatMap extends StatelessWidget {
           10: Color.fromARGB(220, 2, 179, 8),
         },
         onClick: (value) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              backgroundColor: Theme.of(context).canvasColor,
-              content: Text(
-                value.toString(),
-                style: TextStyle(color: Theme.of(context).colorScheme.primary),
-              ),
-            ),
-          );
+          var rawDate = value.toString();
+          var formattedDate = rawDate.substring(0, 10);
+          var convertedDate = rawDate.substring(0, 10).replaceAll(r'-', '');
+          Get.to(() => VisitHabitScreen(
+              selectedDate: convertedDate, formattedDate: formattedDate));
         },
       ),
     );

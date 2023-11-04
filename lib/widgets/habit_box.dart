@@ -4,17 +4,18 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:side_track/hive/habits/habit_model.dart';
 
 class HabitBox extends ConsumerStatefulWidget {
-  const HabitBox({
-    super.key,
-    required this.habitText,
-    required this.habitCompleted,
-    required this.edit,
-    required this.delete,
-    required this.index,
-  });
+  const HabitBox(
+      {super.key,
+      required this.habitText,
+      required this.habitCompleted,
+      required this.edit,
+      required this.delete,
+      required this.index,
+      this.date});
 
   final String habitText;
   final int index;
+  final String? date;
   final bool habitCompleted;
   final Function(BuildContext)? edit;
   final Function(BuildContext)? delete;
@@ -73,7 +74,9 @@ class HabitBoxState extends ConsumerState<HabitBox> {
                 trailing: const Icon(Icons.arrow_back),
                 onTap: () {
                   val = !val;
-                  ref.read(habitController).onCheckBoxTapped(val, widget.index);
+                  ref
+                      .read(habitController)
+                      .onCheckBoxTapped(val, widget.index, widget?.date);
                 }),
           ),
         ),
